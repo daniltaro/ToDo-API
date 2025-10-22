@@ -40,14 +40,22 @@ func (h *TaskHandler) PostTasks(c echo.Context) error {
 
 func (h *TaskHandler) PatchTasks(c echo.Context) error {
 	id := c.Param("id")
-	var isDone bool
-	if err := c.Bind(&isDone); err != nil {
+	var taskCondition model.TaskCondittion
+	if err := c.Bind(&taskCondition); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request"})
 	}
 
-	if err := h.s.ChangeTaskCondition(id, isDone); err != nil {
+	if err := h.s.ChangeTaskCondition(id, taskCondition.IsDone); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Could not change task condition"})
 	}
 
 	return c.JSON(http.StatusOK, map[string]string{"success": "Task condition changed"})
+}
+
+func (h *TaskHandler) DeleteTasks(c echo.Context) error {
+	id := c.Param("id")
+	if err := h.s.DeleteTask(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Could not delete task"})
+	}
+	return c.NoContent(http.StatusNoContent)
 }
