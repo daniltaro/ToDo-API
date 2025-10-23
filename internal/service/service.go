@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/google/uuid" 
+
 	"ToDo/internal/model"
 	"ToDo/internal/repository"
-
-	"github.com/google/uuid"
 )
 
 type TaskService interface {
@@ -31,7 +31,7 @@ func (s *TaskServ) GetAllTasks() ([]model.Task, error) {
 
 func (s *TaskServ) CreateTask(task *model.Task) error {
 	task_ := task
-	task_.ID = uuid.NewString()
+	task_.ID = uuid.New()
 	return s.r.CreateTask(task_)
 }
 

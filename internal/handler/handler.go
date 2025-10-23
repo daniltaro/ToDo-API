@@ -35,7 +35,7 @@ func (h *TaskHandler) PostTasks(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Could not create task"})
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"success": "Task added"})
+	return c.JSON(http.StatusCreated, map[string]string{"success": "Task added"})
 }
 
 func (h *TaskHandler) PatchTasks(c echo.Context) error {

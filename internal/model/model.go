@@ -1,16 +1,20 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid" 
+)
 
 type Task struct {
-	ID          string    `json:"id" gorm:"primaryKey"`
-	Title       string    `json:"title" gorm:"not null"`
+	ID          uuid.UUID `json:"id"`
+	Title       string    `json:"title"`
 	Description string    `json:"description"`
-	IsDone      bool      `json:"isDone" gorm:"default:false"`
+	IsDone      bool      `json:"is_done"`
 	Deadline    time.Time `json:"deadline"`
-	CreatedAt   time.Time `json:"createdAt" gorm:"default:CURRENT_TIMESTAMP"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type TaskCondittion struct {
-	IsDone bool `json:"isDone"`
+	IsDone bool `json:"is_done"`
 }
