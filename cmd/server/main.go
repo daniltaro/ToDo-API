@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"ToDo/internal/db"
 	"ToDo/internal/handler"
+	"ToDo/internal/initializers"
 	"ToDo/internal/repository"
 	"ToDo/internal/service"
 
@@ -13,7 +13,11 @@ import (
 )
 
 func main() {
-	database, err := db.InitDB()
+	err := initializers.InitENV()
+	if err != nil {
+		log.Fatalf("Could not find .env: %v", err)
+	}
+	database, err := initializers.InitDB()
 	if err != nil {
 		log.Fatalf("Could not connect to db: %v", err)
 	}
