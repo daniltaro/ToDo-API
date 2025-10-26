@@ -8,6 +8,7 @@ import (
 
 type Task struct {
 	ID          uuid.UUID `json:"id"`
+	Login       string    `json:"login"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	IsDone      bool      `json:"is_done"`
@@ -17,4 +18,10 @@ type Task struct {
 
 type TaskCondittion struct {
 	IsDone bool `json:"is_done"`
+}
+
+type User struct {
+	Login     string `json:"login"`
+	Password  string `json:"password"`
+	CreatedAt time.Time
 }

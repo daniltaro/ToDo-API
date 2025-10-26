@@ -5,11 +5,12 @@ import (
 
 	"ToDo/internal/handler"
 	"ToDo/internal/initializers"
+	"ToDo/internal/middleware"
 	"ToDo/internal/repository"
 	"ToDo/internal/service"
 
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	echoMiddlware "github.com/labstack/echo/middleware"
 )
 
 func main() {
@@ -22,18 +23,24 @@ func main() {
 		log.Fatalf("Could not connect to db: %v", err)
 	}
 
-	repo := repository.NewTaskRepository(database)
-	service := service.NewTaskService(repo)
-	handler := handler.NewTaskHandler(service)
+	repo := repository.NewRepository(database)
+	authMiddleware := middleware.NewAuthMiddleware(database)
+	service := service.NewService(repo)
+	taskHandler := handler.NewTaskHandler(service)
+	userHandler := handler.NewUserHandler(service)
 
 	e := echo.New()
 
-	e.Use(middleware.Logger())
+	e.GET("/tasks", taskHandler.GetTasks, authMiddleware.RequireAuth)
+	e.POST("/tasks", taskHandler.PostTasks, authMiddleware.RequireAuth)
+	e.PATCH("/tasks/:id", taskHandler.PatchTasks, authMiddleware.RequireAuth)
+	e.DELETE("/tasks/:id", taskHandler.DeleteTasks, authMiddleware.RequireAuth)
+	e.GET("/validate", userHandler.Validate, authMiddleware.RequireAuth)
 
-	e.GET("/tasks", handler.GetTasks)
-	e.POST("/tasks", handler.PostTasks)
-	e.PATCH("/tasks/:id", handler.PatchTasks)
-	e.DELETE("/tasks/:id", handler.DeleteTasks)
+	e.Use(echoMiddlware.Logger())
+
+	e.POST("/signup", userHandler.Signup)
+	e.POST("/login", userHandler.Login)
 
 	e.Start("localhost:8080")
 }

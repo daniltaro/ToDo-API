@@ -1,57 +1,90 @@
 package service
 
 import (
-	"fmt"
-	"os"
+	"errors"
+	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 
 	"ToDo/internal/model"
 	"ToDo/internal/repository"
 )
 
-type TaskService interface {
-	GetAllTasks() ([]model.Task, error)
-	CreateTask(task *model.Task) error
-	ChangeTaskCondition(id string, isDone bool) error
-	DeleteTask(id string) error
+type Service interface {
+	GetAllTasks(login string) ([]model.Task, error)
+	CreateTask(task *model.Task, login string) error
+	ChangeTaskCondition(id, login string, isDone bool) error
+	DeleteTask(id, login string) error
+	AddUser(user *model.User) error
+	LookUpReqUser(user *model.User) error
 }
 
-type TaskServ struct {
-	r repository.TaskRepository
+type Serv struct {
+	r repository.Repository
 }
 
-func NewTaskService(repo repository.TaskRepository) TaskService {
-	return &TaskServ{r: repo}
+func NewService(repo repository.Repository) Service {
+	return &Serv{r: repo}
 }
 
-func (s *TaskServ) GetAllTasks() ([]model.Task, error) {
-	return s.r.GetAllTasks()
+func (s *Serv) GetAllTasks(login string) ([]model.Task, error) {
+	return s.r.GetAllTasks(login)
 }
 
-func (s *TaskServ) CreateTask(task *model.Task) error {
-	task_ := task
-	task_.ID = uuid.New()
-	return s.r.CreateTask(task_)
+func (s *Serv) CreateTask(task *model.Task, login string) error {
+	task.ID = uuid.New()
+	task.Login = login
+	return s.r.CreateTask(task)
 }
 
-func (s *TaskServ) ChangeTaskCondition(id string, isDone bool) error {
+func (s *Serv) ChangeTaskCondition(id, login string, isDone bool) error {
 	task, err := s.r.GetTaskByID(id)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "GetTaskByID: %v", err)
 		return err
+	}
+	if task.Login != login {
+		return errors.New("could not find task")
 	}
 
 	task.IsDone = isDone
 
 	if err = s.r.UpdateTask(&task); err != nil {
-		fmt.Fprintf(os.Stderr, "UpdateTask: %v", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *TaskServ) DeleteTask(id string) error {
-	return s.r.DeleteTask(id)
+func (s *Serv) DeleteTask(id, login string) error {
+	return s.r.DeleteTask(id, login)
+}
+
+func (s *Serv) AddUser(user *model.User) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+	if err != nil {
+		return err
+	}
+
+	return s.r.AddUser(&model.User{
+		Password:  string(hash),
+		Login:     user.Login,
+		CreatedAt: time.Now(),
+	})
+}
+
+// Checks password and login
+func (s *Serv) LookUpReqUser(user *model.User) error {
+	var body model.User
+	var err error
+	if body, err = s.r.GetUserByLogin(user.Login); err != nil {
+		return err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(body.Password), []byte(user.Password))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
