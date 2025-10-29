@@ -1,6 +1,7 @@
 package initializers
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -9,7 +10,14 @@ import (
 )
 
 func InitDB() (*gorm.DB, error) {
-	dsn := os.Getenv("DB")
+	dbPort := os.Getenv("DB_PORT")
+	dbHost := os.Getenv("DB_HOST")
+	dbName := os.Getenv("DB_NAME")
+	dbPass := os.Getenv("DB_PASS")
+	dbUser := os.Getenv("DB_USER")
+
+	dsn := fmt.Sprintf("host=%s port=%s database=%s password=%s user=%s sslmode=disable",
+		dbHost, dbPort, dbName, dbPass, dbUser)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {

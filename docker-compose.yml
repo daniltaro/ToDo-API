@@ -1,0 +1,25 @@
+services:
+  todo:
+    build: .
+    env_file: .env
+    restart: always
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - db
+    command: []
+  db:
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+volumes:
+  db_data:
+
+

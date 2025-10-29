@@ -42,5 +42,5 @@ func main() {
 	e.POST("/signup", userHandler.Signup)
 	e.POST("/login", userHandler.Login)
 
-	e.Start("localhost:8080")
+	e.Start(":8080")
 }
