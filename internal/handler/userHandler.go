@@ -62,7 +62,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 
 	cookie := new(http.Cookie)
 	cookie.Name = "Authorization"
-	cookie.Value = tokenString
+	cookie.Value = "Bearer " + tokenString
 	cookie.Expires = time.Now().Add(time.Hour * 24)
 	cookie.Secure = false
 	cookie.HttpOnly = true

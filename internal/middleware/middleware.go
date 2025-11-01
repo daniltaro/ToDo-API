@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -30,6 +31,12 @@ func (m *AuthMiddleware) RequireAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		tokenString := cookie.Value
+
+		if !strings.HasPrefix(tokenString, "Bearer ") {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Missing bearer token")
+		}
+
+		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 
 		// Parse token
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -61,7 +68,7 @@ func (m *AuthMiddleware) RequireAuth(next echo.HandlerFunc) echo.HandlerFunc {
 			c.Set("user", user)
 
 		} else {
-			return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized2")
+			return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
 		}
 
 		// Continue

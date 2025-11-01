@@ -11,6 +11,8 @@ import (
 	"ToDo/internal/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Service interface {
 	GetAllTasks(login string) ([]model.Task, error)
 	CreateTask(task *model.Task, login string) error
@@ -73,7 +75,7 @@ func (s *Serv) AddUser(user *model.User) error {
 	})
 }
 
-// Checks password and login
+// Checks password and login in db
 func (s *Serv) LookUpReqUser(user *model.User) error {
 	var body model.User
 	var err error
