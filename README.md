@@ -15,7 +15,9 @@ It is a RESTful API with Go using **echo**, **goose** migrations, **docker-compo
 ## Installation & Run
 ```bash
 # Download this project
-go get github.com/daniltaro/ToDo-API
+git clone https://github.com/daniltaro/ToDo-API
+cd ToDo-API
+go mod tidy
 ```
 
 Before running API server, you should create the **.env** with your variable values 
@@ -33,8 +35,7 @@ GOOSE_DBSTRING="host=${DB_HOST} port=${DB_PORT} user=${DB_USER} password=${DB_PA
 ```
 #### Run:
 ```bash
-# Build and Run
-cd ToDo-API
+## Run
 make up ## 	docker compose up --build
 
 # API Endpoint : http://127.0.0.1:8080
