@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ToDo/internal/model"
+	"github.com/daniltaro/ToDo-API/internal/model"
 
 	"gorm.io/gorm"
 )

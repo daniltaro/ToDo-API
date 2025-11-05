@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"ToDo/internal/handler"
-	"ToDo/internal/initializers"
-	"ToDo/internal/middleware"
-	"ToDo/internal/repository"
-	"ToDo/internal/service"
+	"github.com/daniltaro/ToDo-API/internal/handler"
+	"github.com/daniltaro/ToDo-API/internal/initializers"
+	"github.com/daniltaro/ToDo-API/internal/middleware"
+	"github.com/daniltaro/ToDo-API/internal/repository"
+	"github.com/daniltaro/ToDo-API/internal/service"
 
 	"github.com/labstack/echo"
 	echoMiddlware "github.com/labstack/echo/middleware"

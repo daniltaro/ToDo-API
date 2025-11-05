@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"ToDo/internal/model"
+	"github.com/daniltaro/ToDo-API/internal/model"
 	"fmt"
 	"net/http"
 	"os"

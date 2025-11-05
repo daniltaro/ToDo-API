@@ -15,11 +15,11 @@ It is a RESTful API with Go using **echo**, **goose** migrations, **docker-compo
 ## Installation & Run
 ```bash
 # Download this project
-go get github.com/github.com/daniltaro/ToDo-API
+go get github.com/daniltaro/ToDo-API
 ```
 
 Before running API server, you should create the **.env** with your variable values 
-#### example:
+#### Example of .env:
 ```.env
 SECRET=123
 PORT=8080
@@ -31,7 +31,7 @@ DB_PORT=5432
 GOOSE_DRIVER=postgres
 GOOSE_DBSTRING="host=${DB_HOST} port=${DB_PORT} user=${DB_USER} password=${DB_PASS} sslmode=disable database=${DB_NAME}"
 ```
-
+#### Run:
 ```bash
 # Build and Run
 cd ToDo-API
@@ -50,7 +50,7 @@ make down ## docker compose down -v
 ## Documentation
 The OpenAPI 3.0 specification is provided in the file:
 ```
-docs/swagger.yml
+docs/swagger.yaml
 ```
 
 ## API

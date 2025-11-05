@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"ToDo/internal/model"
-	"ToDo/internal/service"
+	"github.com/daniltaro/ToDo-API/internal/model"
+	"github.com/daniltaro/ToDo-API/internal/service"
 
 	"github.com/labstack/echo"
 )

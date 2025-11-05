@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"ToDo/internal/model"
-	mock_service "ToDo/internal/service/mocks"
+	"github.com/daniltaro/ToDo-API/internal/model"
+	mock_service "github.com/daniltaro/ToDo-API/internal/service/mocks"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/golang/mock/gomock"

@@ -7,8 +7,8 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 
-	"ToDo/internal/model"
-	"ToDo/internal/repository"
+	"github.com/daniltaro/ToDo-API/internal/model"
+	"github.com/daniltaro/ToDo-API/internal/repository"
 )
 
 //go:generate mockgen -source=service.go -destination=mocks/mock.go

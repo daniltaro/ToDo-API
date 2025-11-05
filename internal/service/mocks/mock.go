@@ -5,7 +5,7 @@
 package mock_service
 
 import (
-	model "ToDo/internal/model"
+	model "github.com/daniltaro/ToDo-API/internal/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"

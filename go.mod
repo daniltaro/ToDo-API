@@ -1,4 +1,4 @@
-module ToDo
+module github.com/daniltaro/ToDo-API
 
 go 1.25.2
 
