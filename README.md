@@ -59,7 +59,7 @@ docs/swagger.yaml
 #### /tasks
 * `GET` : Get all tasks
 * `POST` : Create a new task
-#### /projects/:id
+#### /tasks/:id
 * `PUT` : Update a task
 * `DELETE` : Delete a task
 #### /login
