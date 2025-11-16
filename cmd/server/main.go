@@ -38,6 +38,7 @@ func main() {
 	e.GET("/validate", userHandler.Validate, authMiddleware.RequireAuth)
 
 	e.Use(echoMiddlware.Logger())
+	e.Use(echoMiddlware.CORS())
 
 	e.POST("/signup", userHandler.Signup)
 	e.POST("/login", userHandler.Login)
