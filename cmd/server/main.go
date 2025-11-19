@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/daniltaro/ToDo-API/internal/handler"
 	"github.com/daniltaro/ToDo-API/internal/initializers"
@@ -38,7 +39,12 @@ func main() {
 	e.GET("/validate", userHandler.Validate, authMiddleware.RequireAuth)
 
 	e.Use(echoMiddlware.Logger())
-	e.Use(echoMiddlware.CORS())
+	e.Use(echoMiddlware.CORSWithConfig(echoMiddlware.CORSConfig{
+		AllowOrigins:     []string{os.Getenv("ORIGIN")},
+		AllowCredentials: true,
+		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Accept", "Authorization", "Content-Type"},
+	}))
 
 	e.POST("/signup", userHandler.Signup)
 	e.POST("/login", userHandler.Login)

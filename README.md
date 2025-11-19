@@ -32,6 +32,7 @@ DB_HOST=db
 DB_PORT=5432
 GOOSE_DRIVER=postgres
 GOOSE_DBSTRING="host=${DB_HOST} port=${DB_PORT} user=${DB_USER} password=${DB_PASS} sslmode=disable database=${DB_NAME}"
+ORIGIN=http://localhost:8000
 ```
 #### Run:
 ```bash
