@@ -1,0 +1,26 @@
+name: CI - Tests
+
+on: 
+  push:
+    branches:
+        - '*'
+  pull_request:
+    branches: 
+        - '*'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v5
+
+        - name: Setup Go
+          uses: actions/setup-go@v5
+          with:
+            go-version: '1.25.2' 
+
+        - name: Install dependencies
+          run: go mod download
+
+        - name: Run tests
+          run: make tests
